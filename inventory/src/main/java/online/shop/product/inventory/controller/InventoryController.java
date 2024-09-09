@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/inventory")
 public class InventoryController {
-    private InventoryService inventoryService;
+    private final InventoryService inventoryService;
 
     @GetMapping("/stock/{id}")
     public ProductDetailResponse getProductDetail(@PathVariable String id) {
