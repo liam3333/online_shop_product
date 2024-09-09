@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: first
+          predicates:
+            - Path=/product/
+          uri: http://localhost:5000
+        - id: second
+          predicates:
+            - Path=/user/
+          uri: http://localhost:5002
+server:
+  port: 80
+backend:
+  product:
+    name: product
+    uri: http://localhost:5000
+    path:
+      inquirylist: /product/list
+      inquirtdetail: /product/detail
+  user:
+    name: user
+    uri: http://localhost:5002
+    path:
+      login: /login
+      inquirylist: /cart/list
+      addcart: /cart/add
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: VHKJMNnbfhbsjkdbVJHVkhbJBKJBsmfnbngygiyguFYVHJbkjnjnsjdnlkfn
+
+authentication:
+  enabled: true

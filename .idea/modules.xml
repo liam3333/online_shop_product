@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/inventory.main.iml" filepath="$PROJECT_DIR$/.idea/modules/inventory.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/online_shop_product.iml" filepath="$PROJECT_DIR$/.idea/online_shop_product.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/shoping.iml" filepath="$PROJECT_DIR$/.idea/shoping.iml" />
     </modules>
   </component>
 </project>
