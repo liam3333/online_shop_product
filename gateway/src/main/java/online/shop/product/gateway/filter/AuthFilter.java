@@ -49,9 +49,6 @@ public class AuthFilter implements GatewayFilter {
                 log.debug("in error");
                 return this.onError(exchange,"Credentials missing",HttpStatus.UNAUTHORIZED);
             }
-            if (request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")) {
-                token = authUtil.getToken(request.getHeaders().get("userName").toString(), request.getHeaders().get("role").toString());
-            }
             else {
                 token = request.getHeaders().get("Authorization").toString().split(" ")[1];
             }

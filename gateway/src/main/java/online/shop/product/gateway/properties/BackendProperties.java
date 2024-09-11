@@ -14,7 +14,7 @@ public class BackendProperties {
     @Data
     public static class Product{
         private String inquirylist;
-        private String inquirtdetail;
+        private String inquirydetail;
     }
     @Data
     public static class User{

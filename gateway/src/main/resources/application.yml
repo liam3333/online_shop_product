@@ -1,26 +1,17 @@
 spring:
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      routes:
-        - id: first
-          predicates:
-            - Path=/product/
-          uri: http://localhost:5000
-        - id: second
-          predicates:
-            - Path=/user/
-          uri: http://localhost:5002
+
 server:
   port: 80
+
 backend:
   product:
     name: product
     uri: http://localhost:5000
     path:
-      inquirylist: /product/list
-      inquirtdetail: /product/detail
+      inquirylist: /api/product/list
+      inquirydetail: /api/product/detail/{id}
   user:
     name: user
     uri: http://localhost:5002
@@ -39,4 +30,10 @@ jwt:
   secret: VHKJMNnbfhbsjkdbVJHVkhbJBKJBsmfnbngygiyguFYVHJbkjnjnsjdnlkfn
 
 authentication:
-  enabled: true
+  enabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG

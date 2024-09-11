@@ -20,7 +20,7 @@ public class AuthUtil {
         headers.set("userName",userName);
         headers.set("role",role);
         HttpEntity<Credential> request = new HttpEntity<>(
-                new Credential("anish", "admin"),headers);
+                new Credential("hugo", "admin"),headers);
         ResponseEntity<String> response = restTemplate.exchange("http://localhost:5002/login", HttpMethod.POST,request,String.class);
         System.out.println("token:"+response.getBody());
         return response.getBody();
