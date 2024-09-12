@@ -74,7 +74,22 @@ public class AuthFilter implements GatewayFilter {
 
     private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
         Claims claims = jwtUtil.getALlClaims(token);
-        HeaderRequestDto headerRequestDto = new HeaderRequestDto(String.valueOf(claims.get("userId")),Integer.parseInt((String) claims.get("roleId")));
+        String userId = (String) claims.get("userId");
+        Integer roleId = null;
+
+        // Handle potential type issues
+        Object roleIdObject = claims.get("roleId");
+        if (roleIdObject instanceof Integer) {
+            roleId = (Integer) roleIdObject;
+        } else if (roleIdObject instanceof String) {
+            try {
+                roleId = Integer.parseInt((String) roleIdObject);
+            } catch (NumberFormatException e) {
+                // Handle parsing error if roleId is not a valid integer
+                System.err.println("Invalid roleId format: " + e.getMessage());
+            }
+        }
+        HeaderRequestDto headerRequestDto = new HeaderRequestDto(userId,roleId);
         try {
             exchange.getRequest()
                     .mutate()
