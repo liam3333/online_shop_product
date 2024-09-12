@@ -1,5 +1,4 @@
-package online.shop.product.product.model;
-
+package online.shop.product.user.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,12 +12,9 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table
-public class ProductEntity {
+public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String productId;
-    private String inventoryId;
-    private String name;
-    private String description;
-    private double price;
+    private int roleId;
+    private String roleName;
 }
