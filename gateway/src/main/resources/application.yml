@@ -16,9 +16,9 @@ backend:
     name: user
     uri: http://localhost:5002
     path:
-      login: /login
-      inquirylist: /cart/list
-      addcart: /cart/add
+      login: /api/user/login
+      inquirylist: /api/cart/get-cart
+      addcart: /api/cart/add-cart
 
 
 eureka:
