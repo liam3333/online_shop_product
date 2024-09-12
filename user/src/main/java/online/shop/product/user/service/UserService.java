@@ -25,7 +25,6 @@ public class UserService {
     public void initUser() {
         for (int i = 1; i <= 10; i++) {
             UserEntity entity = UserEntity.builder()
-                    .userId("USR" + i)
                     .name("Name " + i)
                     .email("user_" + i + "mail.com")
                     .username("@username" + i)
