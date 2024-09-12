@@ -18,6 +18,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public void initUser() {
+        for (int i = 1; i <= 10; i++) {
+            UserEntity entity = UserEntity.builder()
+                    .userId("USR" + i)
+                    .name("Name " + i)
+                    .email("user_" + i + "mail.com")
+                    .username("@username" + i)
+                    .password("123456")
+                    .roleId(i % 2)
+                    .build();
+            userRepository.save(entity);
+        }
+    }
+
     public UserResponseDto login(LoginRequestDto request) {
         Optional<UserEntity> user = userRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
         if(user.isEmpty()) {
