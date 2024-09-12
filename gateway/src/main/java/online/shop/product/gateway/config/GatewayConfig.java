@@ -1,6 +1,7 @@
 package online.shop.product.gateway.config;
 
 import online.shop.product.gateway.filter.AuthFilter;
+import online.shop.product.gateway.model.CartRequestDto;
 import online.shop.product.gateway.model.InputLogin;
 import online.shop.product.gateway.properties.BackendProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class GatewayConfig {
                         .uri(backendProperties.getUser().getUri()))
                 .route(backendProperties.getUser().getName(), r -> r.path(backendProperties.getUser().getPath().getAddcart())
                         .and().method(HttpMethod.POST)
-//                        .and().readBody(Product.class, s -> true).filters(f -> f.filters(authFilter))
+                        .and().readBody(CartRequestDto.class, s -> true).filters(f -> f.filters(authFilter))
                         .uri(backendProperties.getUser().getUri()))
 
                 //LOGIN

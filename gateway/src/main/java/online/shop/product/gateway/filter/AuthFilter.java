@@ -1,7 +1,9 @@
 package online.shop.product.gateway.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import online.shop.product.gateway.model.HeaderRequestDto;
 import online.shop.product.gateway.util.JWTUtil;
 import online.shop.product.gateway.validator.RouteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class AuthFilter implements GatewayFilter {
 
     @Autowired
     private JWTUtil jwtUtil;
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Value("${authentication.enabled}")
@@ -70,10 +74,14 @@ public class AuthFilter implements GatewayFilter {
 
     private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
         Claims claims = jwtUtil.getALlClaims(token);
-        exchange.getRequest()
-                .mutate()
-                .header("X-user-id",String.valueOf(claims.get("id")))
-                .header("X-role", String.valueOf(claims.get("role")))
-                .build();
+        HeaderRequestDto headerRequestDto = new HeaderRequestDto(String.valueOf(claims.get("userId")),Integer.parseInt((String) claims.get("roleId")));
+        try {
+            exchange.getRequest()
+                    .mutate()
+                    .header("USER-DETAILS", objectMapper.writeValueAsString(headerRequestDto))
+                    .build();
+        }catch (Exception e){
+            log.info("Failed Mapping Json to String");
+        }
     }
 }
