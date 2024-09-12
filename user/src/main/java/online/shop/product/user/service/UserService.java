@@ -45,7 +45,7 @@ public class UserService {
                         .claim("userId",user.get().getUserId())
                         .claim("roleId",user.get().getRoleId())
                         .setSubject(user.get().getName())
-                        .signWith(SignatureAlgorithm.ES256,key).toString())
+                        .signWith(SignatureAlgorithm.ES256,key))
                 .build();
     }
 

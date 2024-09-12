@@ -1,5 +1,6 @@
 package online.shop.product.user.dto.response;
 
+import io.jsonwebtoken.JwtBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,5 +9,5 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class UserResponseDto {
-    private String token;
+    private JwtBuilder token;
 }
