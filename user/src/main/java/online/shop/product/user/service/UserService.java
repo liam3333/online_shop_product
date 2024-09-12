@@ -1,11 +1,13 @@
 package online.shop.product.user.service;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import online.shop.product.user.dto.request.LoginRequestDto;
-import online.shop.product.user.dto.request.RegisRequestDto;
 import online.shop.product.user.dto.response.UserResponseDto;
 import online.shop.product.user.exception.NotFoundException;
 import online.shop.product.user.model.entity.UserEntity;
 import online.shop.product.user.model.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,6 +15,8 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    @Value("${key.jwt.secret}")
+    private String key;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -38,9 +42,11 @@ public class UserService {
             throw new NotFoundException();
         }
         return UserResponseDto.builder()
-                .userId(user.get().getUserId())
-                .name(user.get().getName())
-                .roleId(user.get().getRoleId())
+                .token(Jwts.builder()
+                        .claim("userId",user.get().getUserId())
+                        .claim("roleId",user.get().getRoleId())
+                        .setSubject(user.get().getName())
+                        .signWith(SignatureAlgorithm.ES256,key).toString())
                 .build();
     }
 
