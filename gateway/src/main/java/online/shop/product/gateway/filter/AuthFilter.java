@@ -2,7 +2,6 @@ package online.shop.product.gateway.filter;
 
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-import online.shop.product.gateway.util.AuthUtil;
 import online.shop.product.gateway.util.JWTUtil;
 import online.shop.product.gateway.validator.RouteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @Component
 @RefreshScope
 @Slf4j
@@ -28,8 +29,6 @@ public class AuthFilter implements GatewayFilter {
     @Autowired
     private JWTUtil jwtUtil;
 
-    @Autowired
-    private AuthUtil authUtil;
 
     @Value("${authentication.enabled}")
     private boolean authEnabled;
@@ -45,14 +44,12 @@ public class AuthFilter implements GatewayFilter {
 
         if(routeValidator.isSecured.test(request)) {
             log.debug("validating authentication token");
-            if(this.isCredsMissing(request)) {
+            if(!request.getHeaders().containsKey("Authorization")) {
                 log.debug("in error");
                 return this.onError(exchange,"Credentials missing",HttpStatus.UNAUTHORIZED);
             }
-            else {
-                token = request.getHeaders().get("Authorization").toString().split(" ")[1];
-            }
 
+            token = Objects.requireNonNull(request.getHeaders().get("Authorization")).toString().split(" ")[1];
             if(jwtUtil.isInvalid(token)) {
                 return this.onError(exchange,"Auth header invalid",HttpStatus.UNAUTHORIZED);
             }
@@ -71,21 +68,12 @@ public class AuthFilter implements GatewayFilter {
         return response.setComplete();
     }
 
-    private String getAuthHeader(ServerHttpRequest request) {
-        return  request.getHeaders().getOrEmpty("Authorization").get(0);
-    }
-
-
-    private boolean isCredsMissing(ServerHttpRequest request) {
-        return !(request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")) && !request.getHeaders().containsKey("Authorization");
-    }
-
     private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
         Claims claims = jwtUtil.getALlClaims(token);
         exchange.getRequest()
                 .mutate()
-                .header("id",String.valueOf(claims.get("id")))
-                .header("role", String.valueOf(claims.get("role")))
+                .header("X-user-id",String.valueOf(claims.get("id")))
+                .header("X-role", String.valueOf(claims.get("role")))
                 .build();
     }
 }

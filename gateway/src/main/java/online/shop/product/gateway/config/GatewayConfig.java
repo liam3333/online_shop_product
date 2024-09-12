@@ -1,6 +1,7 @@
 package online.shop.product.gateway.config;
 
 import online.shop.product.gateway.filter.AuthFilter;
+import online.shop.product.gateway.model.InputLogin;
 import online.shop.product.gateway.properties.BackendProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -22,6 +23,7 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+                //PRODUCT
                 .route(backendProperties.getProduct().getName(), r -> r.path(backendProperties.getProduct().getPath().getInquirylist())
                         .and().method(HttpMethod.GET)
                         .filters(f -> f.filters(authFilter))
@@ -31,6 +33,7 @@ public class GatewayConfig {
                         .filters(f -> f.filters(authFilter))
                         .uri(backendProperties.getProduct().getUri()))
 
+                //USER
                 .route(backendProperties.getUser().getName(), r -> r.path(backendProperties.getUser().getPath().getInquirylist())
                         .and().method(HttpMethod.GET)
                         .filters(f -> f.filters(authFilter))
@@ -40,7 +43,10 @@ public class GatewayConfig {
 //                        .and().readBody(Product.class, s -> true).filters(f -> f.filters(authFilter))
                         .uri(backendProperties.getUser().getUri()))
 
+                //LOGIN
                 .route(backendProperties.getUser().getName(),r -> r.path(backendProperties.getUser().getPath().getLogin())
+                        .and().readBody(InputLogin.class, s -> true)
+                        .and().method(HttpMethod.POST)
                         .uri(backendProperties.getUser().getUri()))
                 .build();
     }

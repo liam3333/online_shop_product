@@ -30,7 +30,7 @@ jwt:
   secret: VHKJMNnbfhbsjkdbVJHVkhbJBKJBsmfnbngygiyguFYVHJbkjnjnsjdnlkfn
 
 authentication:
-  enabled: false
+  enabled: true
 
 logging:
   level:
