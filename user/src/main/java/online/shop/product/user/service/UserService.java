@@ -44,8 +44,7 @@ public class UserService {
                 .token(Jwts.builder()
                         .claim("userId",user.get().getUserId())
                         .claim("roleId",user.get().getRoleId())
-                        .setSubject(user.get().getName())
-                        .signWith(SignatureAlgorithm.ES256,key))
+                        .signWith(SignatureAlgorithm.HS256,key).compact())
                 .build();
     }
 

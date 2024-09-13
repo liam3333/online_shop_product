@@ -9,5 +9,5 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class UserResponseDto {
-    private JwtBuilder token;
+    private String token;
 }

@@ -14,11 +14,6 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping("init-user")
-//    public void initUser() {
-//        userService.initUser();
-//    }
-
     @PostMapping("/login")
     public UserResponseDto login(@RequestBody LoginRequestDto request) {
         return userService.login(request);

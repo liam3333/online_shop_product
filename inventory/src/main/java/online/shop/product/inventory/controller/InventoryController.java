@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class InventoryController {
     private final InventoryService inventoryService;
 
-    @GetMapping("/init-inventory")
-    public void init() {
-        inventoryService.initInventory();
-    }
-
     @GetMapping("/stock/{productId}")
     public ProductDetailResponse getProductDetail(@PathVariable("productId") String id) {
         return inventoryService.getProductDetail(id);

@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String cartId;
+    private Long cartId;
     private String productId;
     private int quantity;
     private String userId;

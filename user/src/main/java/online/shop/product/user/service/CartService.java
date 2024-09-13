@@ -21,18 +21,23 @@ public class CartService {
     public CartEntity addCart(CartRequestDto cart, HeaderRequestDto header) {
         Optional<CartEntity> cartEntity = cartRepository.findByProductIdAndUserId(cart.getProductId(), header.getUserId());
         CartEntity cartRes;
-        if(cartEntity.isEmpty()) {
-            cartRes = CartEntity.builder()
-                    .productId(cart.getProductId())
-                    .userId(header.getUserId())
-                    .quantity(cart.getQuantity())
-                    .build();
-        }
-        else {
-            Boolean isStockReady = inventoryClient.subtractStock(SubstractStockRequest.builder()
-                            .productId(cart.getProductId())
-                            .quantity(cart.getQuantity())
-                    .build());
+
+        Boolean isStockReady = inventoryClient.subtractStock(SubstractStockRequest.builder()
+                .productId(cart.getProductId())
+                .quantity(cart.getQuantity())
+                .build());
+
+        if (cartEntity.isEmpty()) {
+            if (isStockReady) {
+                cartRes = CartEntity.builder()
+                        .productId(cart.getProductId())
+                        .userId(header.getUserId())
+                        .quantity(cart.getQuantity())
+                        .build();
+            } else {
+                throw new RuntimeException("Product Stock Not Enough!");
+            }
+        } else {
             if (isStockReady) {
                 cartRes = cartEntity.get();
                 cartRes.setQuantity(cartRes.getQuantity()+cart.getQuantity());
@@ -41,7 +46,8 @@ public class CartService {
             }
         }
 
-        return cartRepository.save(cartRes);
+        cartRepository.save(cartRes);
+        return cartRes;
     }
 
     public List<CartEntity> getCarts(HeaderRequestDto header) {

@@ -1,5 +1,7 @@
 package online.shop.product.product.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import online.shop.product.product.model.dto.*;
 import online.shop.product.product.service.ProductService;
@@ -13,11 +15,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-
-    @GetMapping("/init-product")
-    public void initProduct() {
-        productService.initProduct();
-    }
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/list")
     public List<ProductListResponse> getProductList() {
@@ -29,14 +27,16 @@ public class ProductController {
         return productService.getProductDetail(id);
     }
 
-    @PostMapping("/cart")
-    public AddCartResponse addToCart(@RequestBody CartRequestDto request,
-                                     @RequestHeader("USER-DETAILS") HeaderRequestDto header) {
-        return productService.addCart(request, header);
-    }
-
-    @GetMapping("/cart/{userId}")
-    public ViewCartResponse viewCart(@RequestHeader("USER-DETAILS") HeaderRequestDto header) {
-        return productService.getCarts(header);
-    }
+//    @PostMapping("/cart")
+//    public AddCartResponse addToCart(@RequestBody CartRequestDto request,
+//                                     @RequestHeader("USER-DETAILS") String header) throws JsonProcessingException {
+//        HeaderRequestDto headerRequestDto = objectMapper.readValue(header, HeaderRequestDto.class);
+//        return productService.addCart(request, headerRequestDto);
+//    }
+//
+//    @GetMapping("/cart")
+//    public ViewCartResponse viewCart(@RequestHeader("USER-DETAILS") String header) throws JsonProcessingException {
+//        HeaderRequestDto headerRequestDto = objectMapper.readValue(header, HeaderRequestDto.class);
+//        return productService.getCarts(headerRequestDto);
+//    }
 }
