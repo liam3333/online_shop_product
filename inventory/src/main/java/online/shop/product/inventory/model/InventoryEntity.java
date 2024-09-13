@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @Table
 public class InventoryEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String inventoryId;
     private String productId;
     private int stock;

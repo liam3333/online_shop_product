@@ -4,7 +4,6 @@ import online.shop.product.product.model.dto.CartRequestDto;
 import online.shop.product.product.model.dto.AddCartResponse;
 import online.shop.product.product.model.dto.HeaderRequestDto;
 import online.shop.product.product.model.dto.ViewCartResponse;
-import org.apache.http.Header;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

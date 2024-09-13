@@ -12,10 +12,9 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table
+@Table(name = "PRODUCT")
 public class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String productId;
     private String inventoryId;
     private String name;

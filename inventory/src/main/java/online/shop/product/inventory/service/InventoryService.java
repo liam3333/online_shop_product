@@ -20,14 +20,14 @@ public class InventoryService {
             InventoryEntity entity = InventoryEntity.builder()
                     .inventoryId("IVN" + i)
                     .productId("PRD" + i)
-                    .stock(100)
+                    .stock(100 * i)
                     .build();
             inventoryRepository.save(entity);
         }
     }
 
     public ProductDetailResponse getProductDetail(String id) {
-        InventoryEntity inventory = inventoryRepository.findById(id)
+        InventoryEntity inventory = inventoryRepository.findByProductId(id)
                 .orElseThrow(() -> new RuntimeException("Product not found in inventory"));
         return mapToProductDetailResponse(inventory);
     }

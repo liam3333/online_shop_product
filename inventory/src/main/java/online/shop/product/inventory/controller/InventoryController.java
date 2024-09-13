@@ -18,8 +18,8 @@ public class InventoryController {
         inventoryService.initInventory();
     }
 
-    @GetMapping("/stock/{id}")
-    public ProductDetailResponse getProductDetail(@PathVariable String id) {
+    @GetMapping("/stock/{productId}")
+    public ProductDetailResponse getProductDetail(@PathVariable("productId") String id) {
         return inventoryService.getProductDetail(id);
     }
 
