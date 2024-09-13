@@ -16,11 +16,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CartService {
     private final CartRepository cartRepository;
+    private final UserService userService;
     private final InventoryClient inventoryClient;
 
     public CartEntity addCart(CartRequestDto cart, HeaderRequestDto header) {
         Optional<CartEntity> cartEntity = cartRepository.findByProductIdAndUserId(cart.getProductId(), header.getUserId());
         CartEntity cartRes;
+
+        if (!userService.isUserExist(header.getUserId())) {
+            throw new RuntimeException("User doesn't exist");
+        }
 
         Boolean isStockReady = inventoryClient.subtractStock(SubstractStockRequest.builder()
                 .productId(cart.getProductId())
@@ -51,6 +56,11 @@ public class CartService {
     }
 
     public List<CartEntity> getCarts(HeaderRequestDto header) {
-        return cartRepository.findAllByUserId(header.getUserId());
+        List<CartEntity> cartList = cartRepository.findAllByUserId(header.getUserId());
+        if (cartList.isEmpty()) {
+            throw new RuntimeException("No cart data");
+        } else {
+            return cartList;
+        }
     }
 }

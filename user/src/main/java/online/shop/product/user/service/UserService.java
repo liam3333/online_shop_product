@@ -35,6 +35,11 @@ public class UserService {
         }
     }
 
+    public Boolean isUserExist(String userId) {
+        Optional<UserEntity> user = userRepository.findById(userId);
+        return user.isPresent();
+    }
+
     public UserResponseDto login(LoginRequestDto request) {
         Optional<UserEntity> user = userRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
         if(user.isEmpty()) {
